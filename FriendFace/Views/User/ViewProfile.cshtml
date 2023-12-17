@@ -1,17 +1,13 @@
 ﻿@model FriendFace.ViewModels.UserProfileViewModel
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    ViewBag.Title = "View Profile";
-}
 
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <h2>@("@")@Model.user.UserName@("'s") Profile</h2>
             <div class="profile-header">
-                <h3>Firstname: @Model.user.FirstName @Model.user.LastName</h3>
-                <h3>Lastname: @Model.user.LastName</h3>
-                <p>Email: @Model.user.Email</p>
+                <h3 id="userFirstname">Firstname: @Model.user.FirstName</h3>
+                <h3 id="userLastname">Lastname: @Model.user.LastName</h3>
+                <p id="userEmail">Email: @Model.user.Email</p>
             </div>
             @if (Model.isCurrentUser == false && Model.isLoggedIn)
             {
@@ -26,15 +22,29 @@
             }
 
 
-            <!-- Additional profile information here -->
-            <!-- Edit profile button -->
-            @if (Model.isCurrentUser)
-            {
-                <a href="@Url.Action("EditProfile", "User")" class="btn btn-primary">Edit Profile</a>
-            }
-
         </div>
     </div>
-   </div>
+
+
+<!-- Placeholder for EditProfile form -->
+@if (Model.isCurrentUser)
+{
+    <div id="editProfileContainer" style="display: none;">
+        @Html.Partial("_EditProfile", Model)
+    </div>
+    <button id="toggleEditProfile" class="btn btn-primary">Edit Profile</button>
+    <h3 id="successMessage"></h3>
+}
+</div>
+
 <script src="~/js/Search/searchUser.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#toggleEditProfile').click(function () {
+            var isVisible = $('#editProfileContainer').is(":visible");
+            $('#editProfileContainer').toggle();
+            $(this).text(isVisible ? "Edit Profile" : "Cancel");
+        });
+    });
+</script>
 
