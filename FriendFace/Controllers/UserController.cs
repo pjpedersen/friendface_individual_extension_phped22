@@ -153,15 +153,15 @@ namespace FriendFace.Controllers
             if (HttpContext.Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             {
                 if (!ModelState.IsValid)
-{
-    foreach (var state in ModelState)
-    {
-        foreach (var error in state.Value.Errors)
-        {
-            _logger.LogWarning("Error in {0}: {1}", state.Key, error.ErrorMessage);
-        }
-    }
-}
+                {
+                    foreach (var state in ModelState)
+                    {
+                        foreach (var error in state.Value.Errors)
+                        {
+                            _logger.LogWarning("Error in {0}: {1}", state.Key, error.ErrorMessage);
+                        }
+                    }
+                }
 
                 if (!ModelState.IsValid || !updateResult.Succeeded)
                 {

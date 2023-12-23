@@ -46,10 +46,32 @@
             event.preventDefault();
             var formData = new FormData();
 
-            formData.append('user.Email', $('#user_Email').val());
-            formData.append('ChangePasswordViewModel.CurrentPassword', $('#ChangePasswordViewModel_CurrentPassword').val());
-            formData.append('ChangePasswordViewModel.NewPassword', $('#ChangePasswordViewModel_NewPassword').val());
-            formData.append('ChangePasswordViewModel.ConfirmNewPassword', $('#ChangePasswordViewModel_ConfirmNewPassword').val());
+            var email = $('#user_Email').val();
+            var currentPassword = $('#ChangePasswordViewModel_CurrentPassword').val();
+            var newPassword = $('#ChangePasswordViewModel_NewPassword').val();
+            var confirmNewPassword = $('#ChangePasswordViewModel_ConfirmNewPassword').val();
+
+            var isChangingPassword = newPassword || confirmNewPassword;
+
+            // Append email if it's filled and current password is provided
+            if (email && currentPassword) {
+                formData.append('user.Email', email);
+            } else if (email && !currentPassword && !isChangingPassword) {
+                alert("Please enter your current password to change your email.");
+                return;
+            }
+
+            // Append password fields only if all of them are filled out
+            if (isChangingPassword) {
+                if (currentPassword && newPassword && confirmNewPassword) {
+                    formData.append('ChangePasswordViewModel.CurrentPassword', currentPassword);
+                    formData.append('ChangePasswordViewModel.NewPassword', newPassword);
+                    formData.append('ChangePasswordViewModel.ConfirmNewPassword', confirmNewPassword);
+                } else {
+                    alert("Please fill out all password fields to change your password.");
+                    return;
+                }
+            }
 
             $.ajax({
                 url: '@Url.Action("SaveEditProfile", "User")',
