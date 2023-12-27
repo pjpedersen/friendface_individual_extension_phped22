@@ -71,6 +71,7 @@ namespace FriendFace.Controllers
 
 
         [HttpPost("User/Profile/SaveEditProfile")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> SaveEditProfile([FromForm]UserProfileViewModel model)
         {
 

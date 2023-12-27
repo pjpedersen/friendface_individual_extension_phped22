@@ -53,6 +53,9 @@
 
             var isChangingPassword = newPassword || confirmNewPassword;
 
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            formData.append('__RequestVerificationToken', token);
+
             // Append email if it's filled and current password is provided
             if (email && currentPassword) {
                 formData.append('user.Email', email);
